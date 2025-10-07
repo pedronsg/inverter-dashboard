@@ -31,7 +31,7 @@ function formatBatteryPower(power) {
   }
 }
 
-// Token de autenticação (deve ser o mesmo do ESP8266)
+// Auth token (must match ESP8266 configuration)
 const AUTH_TOKEN = "inverter_2024_secure_token_xyz789";
 
 // Função para atualizar dados do dashboard
