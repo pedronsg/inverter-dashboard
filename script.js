@@ -26,9 +26,22 @@ async function atualizarDados() {
     document.getElementById("house-consumption").textContent = data.house_consumption + " W";
     document.getElementById("grid-power").textContent = formatGridPower(data.grid_power) + " W";
     
-  // Update battery bar
-    const batteryFill = document.getElementById("battery-fill");
-    batteryFill.style.width = data.battery_level + "%";
+  // Update battery icon based on level
+    const batteryIcon = document.getElementById("battery-icon");
+    const level = data.battery_level;
+    if (level >= 90) {
+      batteryIcon.textContent = "🔋"; // Full battery
+    } else if (level >= 70) {
+      batteryIcon.textContent = "🔋"; // High battery
+    } else if (level >= 50) {
+      batteryIcon.textContent = "🔋"; // Medium battery
+    } else if (level >= 30) {
+      batteryIcon.textContent = "🔋"; // Low battery
+    } else if (level >= 10) {
+      batteryIcon.textContent = "🔋"; // Very low battery
+    } else {
+      batteryIcon.textContent = "🔋"; // Critical battery
+    }
     
   // Update timestamp
     const timestamp = data.timestamp ? new Date(data.timestamp).toLocaleTimeString() : new Date().toLocaleTimeString();
