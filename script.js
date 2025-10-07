@@ -16,12 +16,10 @@ async function atualizarDados() {
       const jsonData = await res.json();
       Object.assign(data, jsonData);
     } catch (fetchError) {
-      console.log("Using simulated data (no web server)");
     }
   
   // Update component values
     document.getElementById("solar-production").textContent = data.solar_production + " W";
-    document.getElementById("battery-level").textContent = data.battery_level + "%";
     document.getElementById("battery-power").textContent = formatBatteryPower(data.battery_power) + " W";
     document.getElementById("house-consumption").textContent = data.house_consumption + " W";
     document.getElementById("grid-power").textContent = formatGridPower(data.grid_power) + " W";
@@ -55,7 +53,6 @@ async function atualizarDados() {
     document.getElementById("system-status").style.color = "#22c55e";
     
     } catch (e) {
-      console.warn("Error reading data:", e);
     document.getElementById("system-status").textContent = "Connection error";
     document.getElementById("system-status").style.color = "#ef4444";
   }
@@ -94,12 +91,10 @@ function formatBatteryPower(power) {
 }
 
 function controlarFluxoEnergia(data) {
-  console.log('Dados recebidos:', data);
   
   // Desenhar paths curvos via SVG com base nas posições atuais
   const svg = document.getElementById('flow-svg');
   if (!svg) {
-    console.error('SVG não encontrado!');
     return;
   }
   
@@ -110,7 +105,6 @@ function controlarFluxoEnergia(data) {
   svg.setAttribute('height', rect.height);
   svg.setAttribute('viewBox', `0 0 ${rect.width} ${rect.height}`);
   
-  console.log('SVG redimensionado:', rect.width, 'x', rect.height);
   
   // limpar
   while (svg.firstChild) svg.removeChild(svg.firstChild);
@@ -121,7 +115,6 @@ function controlarFluxoEnergia(data) {
   const battery = centerOf('.battery');
   
   // Debug: verificar se as posições estão corretas
-  console.log('Posições:', { solar, grid, house, battery });
 
   // helpers para path bezier suave (curvas para evitar cruzamento no centro)
   function curvedPath(a, b, intensity = 0.4) {
@@ -155,7 +148,6 @@ function controlarFluxoEnergia(data) {
   }
 
   function addPath(id, from, to, color, active) {
-    console.log(`Criando path ${id}:`, { from, to, color, active });
     
     // Calcular raio baseado no tamanho da tela
     const isMobile = window.innerWidth < 768;
@@ -164,7 +156,6 @@ function controlarFluxoEnergia(data) {
     const fromPoint = pointOnCircle(from, to, radius);
     const toPoint = pointOnCircle(to, from, radius);
     
-    console.log(`Pontos na borda (raio ${radius}px):`, { fromPoint, toPoint });
     
     // Sempre criar a linha (sempre visível)
     const path = document.createElementNS('http://www.w3.org/2000/svg','path');
@@ -174,7 +165,6 @@ function controlarFluxoEnergia(data) {
     path.setAttribute('stroke', color);
     path.setAttribute('stroke-width', '2');
     svg.appendChild(path);
-    console.log(`Path ${id} adicionado ao SVG`);
 
     // Bolinha de fluxo - apenas se ativo
     if (active) {
@@ -198,7 +188,6 @@ function controlarFluxoEnergia(data) {
       animateMotion.appendChild(mpath);
       dot.appendChild(animateMotion);
       
-      console.log(`Bolinha ativa adicionada para ${id} - velocidade: ${speed}s (${power}W)`);
     } else {
       // Criar bolinha invisível para manter a estrutura
       const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
@@ -225,12 +214,10 @@ function controlarFluxoEnergia(data) {
 
   // Verificar se as posições são válidas
   if (solar.x === 0 && solar.y === 0) {
-    console.error('Posições não calculadas corretamente!');
     return;
   }
 
   // Desenhar todas as linhas possíveis (sempre visíveis)
-  console.log('Criando linhas...');
   
   // Linhas do Solar
   addPath('p-solar-batt', solar, battery, cSolar, solarToBattery);
@@ -252,7 +239,6 @@ function controlarFluxoEnergia(data) {
   addPath('p-batt-home', battery, house, cBattery, batteryToHouse);
   addPath('p-batt-grid', battery, grid, cBattery, false); // Sempre inativo
   
-  console.log('Todas as linhas criadas!');
   
   // helper para atualizar tamanhos do SVG
 }
@@ -261,7 +247,6 @@ function centerOf(selector) {
   const el = document.querySelector(selector);
   const svgHost = document.querySelector('.energy-flow');
   if (!el || !svgHost) {
-    console.error(`Elemento não encontrado: ${selector}`);
     return { x: 0, y: 0 };
   }
   
@@ -271,7 +256,6 @@ function centerOf(selector) {
   const x = er.left + er.width/2 - hr.left;
   const y = er.top + er.height/2 - hr.top;
   
-  console.log(`${selector}:`, { x, y, rect: er });
   return { x, y };
 }
 
