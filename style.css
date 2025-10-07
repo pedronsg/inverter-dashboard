@@ -219,46 +219,54 @@ h1 {
 
 /* Layout responsivo para mobile */
 @media (max-width: 767px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+  }
+  
   .energy-flow {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 5px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 15px;
     align-items: center;
     justify-items: center;
-    min-height: 200px;
-    max-width: 200px;
-    margin: 0 auto;
-    padding: 20px;
+    min-height: 350px;
+    width: 350px;
+    margin: 10px auto;
+    padding: 10px;
+    flex-shrink: 0;
+  }
+  
+  .status-panel {
+    width: 350px;
+    margin-top: 20px;
   }
   
   .solar-panels {
-    grid-column: 1;
+    grid-column: 2;
     grid-row: 1;
   }
   
   .battery {
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 3;
   }
   
   .house {
-    grid-column: 1;
+    grid-column: 3;
     grid-row: 2;
   }
   
   .grid {
-    grid-column: 2;
+    grid-column: 1;
     grid-row: 2;
   }
   
-  .connection-line {
-    display: none;
-  }
-  
-  .flow-dot {
-    display: none;
-  }
+  /* SVG lines will work on mobile */
   
   .component {
     width: 80px;

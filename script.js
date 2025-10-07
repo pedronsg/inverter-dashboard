@@ -4,9 +4,9 @@ async function atualizarDados() {
     const data = {
       solar_production: 2500,
       battery_level: 75,
-      battery_power: 800,
-      house_consumption: 3200,
-      grid_power: 300,
+      battery_power: -500, // Negative = discharging
+      house_consumption: 1200, // Lower consumption
+      grid_power: -300, // Negative = exporting to grid
       timestamp: new Date().toISOString()
     };
     
