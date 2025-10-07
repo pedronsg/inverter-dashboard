@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solar Inverter Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🌞 Solar Inverter Dashboard</h1>
+    
+    <div class="energy-flow">
+      <!-- Solar Panels -->
+      <div class="component solar-panels">
+        <div class="icon">☀️</div>
+        <div class="label">Solar</div>
+        <div class="value" id="solar-production">0 W</div>
+      </div>
+      
+      <!-- Linhas do Solar (3 linhas) -->
+      <div class="connection-line solar-to-battery-line" id="solar-to-battery-line"></div>
+      <div class="flow-dot solar-to-battery-dot" id="solar-to-battery-dot"></div>
+      
+      <div class="connection-line solar-to-house-line" id="solar-to-house-line"></div>
+      <div class="flow-dot solar-to-house-dot" id="solar-to-house-dot"></div>
+      
+      <div class="connection-line solar-to-grid-line" id="solar-to-grid-line"></div>
+      <div class="flow-dot solar-to-grid-dot" id="solar-to-grid-dot"></div>
+      
+      <!-- Battery -->
+      <div class="component battery">
+        <div class="icon">🔋</div>
+        <div class="label">Battery</div>
+        <div class="battery-level">
+          <div class="battery-bar">
+            <div class="battery-fill" id="battery-fill"></div>
+          </div>
+          <span id="battery-level">0%</span>
+        </div>
+        <div class="value" id="battery-power">0 W</div>
+      </div>
+      
+      <!-- Linhas da Bateria (3 linhas) -->
+      <div class="connection-line battery-to-solar-line" id="battery-to-solar-line"></div>
+      <div class="flow-dot battery-to-solar-dot" id="battery-to-solar-dot"></div>
+      
+      <div class="connection-line battery-to-house-line" id="battery-to-house-line"></div>
+      <div class="flow-dot battery-to-house-dot" id="battery-to-house-dot"></div>
+      
+      <div class="connection-line battery-to-grid-line" id="battery-to-grid-line"></div>
+      <div class="flow-dot battery-to-grid-dot" id="battery-to-grid-dot"></div>
+      
+      <!-- House -->
+      <div class="component house">
+        <div class="icon">🏠</div>
+        <div class="label">House</div>
+        <div class="value" id="house-consumption">0 W</div>
+      </div>
+      
+      <!-- Linhas da Casa (3 linhas) -->
+      <div class="connection-line house-to-solar-line" id="house-to-solar-line"></div>
+      <div class="flow-dot house-to-solar-dot" id="house-to-solar-dot"></div>
+      
+      <div class="connection-line house-to-grid-line" id="house-to-grid-line"></div>
+      <div class="flow-dot house-to-grid-dot" id="house-to-grid-dot"></div>
+      
+      <div class="connection-line house-to-battery-line" id="house-to-battery-line"></div>
+      <div class="flow-dot house-to-battery-dot" id="house-to-battery-dot"></div>
+      
+      <!-- Grid -->
+      <div class="component grid">
+        <div class="icon">⚡</div>
+        <div class="label">Grid</div>
+        <div class="value" id="grid-power">0 W</div>
+      </div>
+      
+      <!-- Linhas da Rede (3 linhas) -->
+      <div class="connection-line grid-to-solar-line" id="grid-to-solar-line"></div>
+      <div class="flow-dot grid-to-solar-dot" id="grid-to-solar-dot"></div>
+      
+      <div class="connection-line grid-to-house-line" id="grid-to-house-line"></div>
+      <div class="flow-dot grid-to-house-dot" id="grid-to-house-dot"></div>
+      
+      <div class="connection-line grid-to-battery-line" id="grid-to-battery-line"></div>
+      <div class="flow-dot grid-to-battery-dot" id="grid-to-battery-dot"></div>
+
+      <!-- SVG de ligações curvas -->
+      <svg id="flow-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"></svg>
+    </div>
+    
+    <!-- Status and extra info -->
+    <div class="status-panel">
+      <div class="status-item">
+        <span class="status-label">Last update:</span>
+        <span id="timestamp">--:--:--</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">System status:</span>
+        <span id="system-status">Connecting...</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
