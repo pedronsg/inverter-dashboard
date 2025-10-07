@@ -220,17 +220,35 @@ h1 {
 /* Layout responsivo para mobile */
 @media (max-width: 767px) {
   .energy-flow {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
     align-items: center;
-    min-height: auto;
+    justify-items: center;
+    min-height: 300px;
+    max-width: 300px;
+    margin: 0 auto;
   }
   
-  .solar-panels, .grid, .house, .battery {
-    position: static;
-    grid-column: unset;
-    grid-row: unset;
+  .solar-panels {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  
+  .battery {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  
+  .house {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  
+  .grid {
+    grid-column: 2;
+    grid-row: 2;
   }
   
   .connection-line {
