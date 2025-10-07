@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inverter Dashboard - GitHub Pages</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .github-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .github-header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .github-header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        .github-nav {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .github-nav a {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .github-nav a:hover {
+            background: #0056b3;
+        }
+        .github-nav a.demo {
+            background: #28a745;
+        }
+        .github-nav a.demo:hover {
+            background: #1e7e34;
+        }
+        .github-info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px;
+            color: #1565c0;
+        }
+        .github-info h3 {
+            margin: 0 0 15px 0;
+            color: #0d47a1;
+        }
+        .github-info ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .github-info li {
+            margin-bottom: 8px;
+        }
+        .github-info a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .github-info a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="github-header">
+        <h1>⚡ Inverter Dashboard</h1>
+        <p>Real-time Energy Flow Visualization for Solar Inverters</p>
+    </div>
+
+    <div class="github-nav">
+        <a href="demo.html" class="demo">🎮 Interactive Demo</a>
+        <a href="https://github.com/yourusername/inverter-dashboard">📁 GitHub Repository</a>
+        <a href="https://github.com/yourusername/inverter-dashboard/issues">🐛 Report Issues</a>
+    </div>
+
+    <div class="github-info">
+        <h3>🚀 Quick Start</h3>
+        <ul>
+            <li><strong>Try the Demo:</strong> <a href="demo.html">Interactive Demo with Simulated Data</a></li>
+            <li><strong>View Source:</strong> <a href="https://github.com/yourusername/inverter-dashboard">GitHub Repository</a></li>
+            <li><strong>ESP8266 Firmware:</strong> Complete Modbus communication setup</li>
+            <li><strong>Web Configuration:</strong> Configure WiFi and Modbus via web interface</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>⚡ Inverter Dashboard</h1>
+            <div class="status-panel">
+                <div id="timestamp">--:--:--</div>
+                <div id="system-status">GitHub Pages</div>
+            </div>
+        </header>
+
+        <div class="energy-flow">
+            <!-- Solar Panel -->
+            <div class="component solar" id="solar">
+                <div class="component-label">Solar</div>
+                <div class="component-value" id="solar-production">2500 W</div>
+            </div>
+
+            <!-- Battery -->
+            <div class="component battery" id="battery">
+                <div class="component-label">Battery</div>
+                <div class="component-value" id="battery-power">800 W</div>
+                <div class="battery-level">
+                    <div class="battery-bar">
+                        <div class="battery-fill" id="battery-fill" style="width: 75%"></div>
+                    </div>
+                    <div class="battery-percentage" id="battery-level">75%</div>
+                </div>
+            </div>
+
+            <!-- House -->
+            <div class="component house" id="house">
+                <div class="component-label">House</div>
+                <div class="component-value" id="house-consumption">1200 W</div>
+            </div>
+
+            <!-- Grid -->
+            <div class="component grid" id="grid">
+                <div class="component-label">Grid</div>
+                <div class="component-value" id="grid-power">-300 W</div>
+            </div>
+
+            <!-- SVG for curved connections -->
+            <svg id="flow-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"></svg>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // GitHub Pages specific data
+        const githubData = {
+            solar_production: 2500,
+            battery_level: 75,
+            battery_power: 800,
+            house_consumption: 1200,
+            grid_power: -300,
+            timestamp: new Date().toISOString()
+        };
+
+        // Update dashboard with GitHub data
+        function updateGitHubDashboard() {
+            // Update component values
+            document.getElementById("solar-production").textContent = githubData.solar_production + " W";
+            document.getElementById("battery-level").textContent = githubData.battery_level + "%";
+            document.getElementById("battery-power").textContent = formatBatteryPower(githubData.battery_power) + " W";
+            document.getElementById("house-consumption").textContent = githubData.house_consumption + " W";
+            document.getElementById("grid-power").textContent = formatGridPower(githubData.grid_power) + " W";
+            
+            // Update battery bar
+            const batteryFill = document.getElementById("battery-fill");
+            batteryFill.style.width = githubData.battery_level + "%";
+            
+            // Update timestamp
+            const timestamp = new Date(githubData.timestamp).toLocaleTimeString();
+            document.getElementById("timestamp").textContent = timestamp;
+            
+            // Control energy flow visualization
+            controlarFluxoEnergia(githubData);
+        }
+
+        // Initialize GitHub dashboard
+        updateGitHubDashboard();
+        
+        // Update timestamp every second
+        setInterval(() => {
+            githubData.timestamp = new Date().toISOString();
+            const timestamp = new Date(githubData.timestamp).toLocaleTimeString();
+            document.getElementById("timestamp").textContent = timestamp;
+        }, 1000);
+    </script>
+</body>
+</html>

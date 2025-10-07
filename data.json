@@ -1,0 +1,8 @@
+{
+    "solar_production": 2500,
+    "battery_level": 75,
+    "battery_power": 800,
+    "house_consumption": 1200,
+    "grid_power": -300,
+    "timestamp": "2024-01-15T10:30:00Z"
+  }

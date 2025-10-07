@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inverter Dashboard - Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .demo-banner {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .demo-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        .demo-controls {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+        .demo-controls h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .control-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .control-row label {
+            min-width: 120px;
+            font-weight: bold;
+            color: #495057;
+        }
+        .control-row input[type="range"] {
+            flex: 1;
+            min-width: 200px;
+        }
+        .control-row span {
+            min-width: 80px;
+            text-align: right;
+            font-weight: bold;
+            color: #007bff;
+            background: #e3f2fd;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .demo-info {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px;
+            color: #2e7d32;
+        }
+        .demo-info h4 {
+            margin: 0 0 10px 0;
+            color: #1b5e20;
+        }
+        .demo-info ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .demo-info li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-banner">
+        🚀 DEMO MODE - Simulated Data | Real-time Energy Flow Visualization
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>⚡ Inverter Dashboard</h1>
+            <div class="status-panel">
+                <div id="timestamp">--:--:--</div>
+                <div id="system-status">Demo Mode</div>
+            </div>
+        </header>
+
+        <div class="energy-flow">
+            <!-- Solar Panel -->
+            <div class="component solar" id="solar">
+                <div class="component-label">Solar</div>
+                <div class="component-value" id="solar-production">2500 W</div>
+            </div>
+
+            <!-- Battery -->
+            <div class="component battery" id="battery">
+                <div class="component-label">Battery</div>
+                <div class="component-value" id="battery-power">800 W</div>
+                <div class="battery-level">
+                    <div class="battery-bar">
+                        <div class="battery-fill" id="battery-fill" style="width: 75%"></div>
+                    </div>
+                    <div class="battery-percentage" id="battery-level">75%</div>
+                </div>
+            </div>
+
+            <!-- House -->
+            <div class="component house" id="house">
+                <div class="component-label">House</div>
+                <div class="component-value" id="house-consumption">1200 W</div>
+            </div>
+
+            <!-- Grid -->
+            <div class="component grid" id="grid">
+                <div class="component-label">Grid</div>
+                <div class="component-value" id="grid-power">-300 W</div>
+            </div>
+
+            <!-- SVG for curved connections -->
+            <svg id="flow-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"></svg>
+        </div>
+
+        <div class="demo-controls">
+            <h3>🎮 Interactive Demo Controls</h3>
+            <div class="control-row">
+                <label>Solar Production:</label>
+                <input type="range" id="solar-slider" min="0" max="5000" value="2500" oninput="updateDemoData()">
+                <span id="solar-value">2500 W</span>
+            </div>
+            <div class="control-row">
+                <label>Battery Level:</label>
+                <input type="range" id="battery-slider" min="0" max="100" value="75" oninput="updateDemoData()">
+                <span id="battery-value">75%</span>
+            </div>
+            <div class="control-row">
+                <label>Battery Power:</label>
+                <input type="range" id="battery-power-slider" min="-2000" max="2000" value="800" oninput="updateDemoData()">
+                <span id="battery-power-value">800 W</span>
+            </div>
+            <div class="control-row">
+                <label>House Consumption:</label>
+                <input type="range" id="house-slider" min="0" max="3000" value="1200" oninput="updateDemoData()">
+                <span id="house-value">1200 W</span>
+            </div>
+            <div class="control-row">
+                <label>Grid Power:</label>
+                <input type="range" id="grid-slider" min="-2000" max="2000" value="-300" oninput="updateDemoData()">
+                <span id="grid-value">-300 W</span>
+            </div>
+        </div>
+
+        <div class="demo-info">
+            <h4>📋 About This Demo</h4>
+            <ul>
+                <li><strong>Real-time Visualization:</strong> Watch energy flow between components</li>
+                <li><strong>Interactive Controls:</strong> Adjust values to see flow changes</li>
+                <li><strong>Responsive Design:</strong> Works on desktop and mobile</li>
+                <li><strong>Animated Dots:</strong> Speed proportional to power flow</li>
+                <li><strong>Smart Arrows:</strong> Directional indicators for grid and battery</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Demo-specific functions
+        function updateDemoData() {
+            const solar = parseInt(document.getElementById('solar-slider').value);
+            const batteryLevel = parseInt(document.getElementById('battery-slider').value);
+            const batteryPower = parseInt(document.getElementById('battery-power-slider').value);
+            const house = parseInt(document.getElementById('house-slider').value);
+            const grid = parseInt(document.getElementById('grid-slider').value);
+
+            // Update display values
+            document.getElementById('solar-value').textContent = solar + ' W';
+            document.getElementById('battery-value').textContent = batteryLevel + '%';
+            document.getElementById('battery-power-value').textContent = batteryPower + ' W';
+            document.getElementById('house-value').textContent = house + ' W';
+            document.getElementById('grid-value').textContent = grid + ' W';
+
+            // Create demo data object
+            const demoData = {
+                solar_production: solar,
+                battery_level: batteryLevel,
+                battery_power: batteryPower,
+                house_consumption: house,
+                grid_power: grid,
+                timestamp: new Date().toISOString()
+            };
+
+            // Update dashboard
+            updateDashboard(demoData);
+        }
+
+        function updateDashboard(data) {
+            // Update component values
+            document.getElementById("solar-production").textContent = data.solar_production + " W";
+            document.getElementById("battery-level").textContent = data.battery_level + "%";
+            document.getElementById("battery-power").textContent = formatBatteryPower(data.battery_power) + " W";
+            document.getElementById("house-consumption").textContent = data.house_consumption + " W";
+            document.getElementById("grid-power").textContent = formatGridPower(data.grid_power) + " W";
+            
+            // Update battery bar
+            const batteryFill = document.getElementById("battery-fill");
+            batteryFill.style.width = data.battery_level + "%";
+            
+            // Update timestamp
+            const timestamp = new Date(data.timestamp).toLocaleTimeString();
+            document.getElementById("timestamp").textContent = timestamp;
+            
+            // Control energy flow visualization
+            controlarFluxoEnergia(data);
+        }
+
+        // Auto-update demo data every 5 seconds with random variations
+        function autoUpdateDemo() {
+            const solar = Math.max(0, Math.min(5000, parseInt(document.getElementById('solar-slider').value) + (Math.random() - 0.5) * 200));
+            const batteryLevel = Math.max(0, Math.min(100, parseInt(document.getElementById('battery-slider').value) + (Math.random() - 0.5) * 5));
+            const batteryPower = Math.max(-2000, Math.min(2000, parseInt(document.getElementById('battery-power-slider').value) + (Math.random() - 0.5) * 100));
+            const house = Math.max(0, Math.min(3000, parseInt(document.getElementById('house-slider').value) + (Math.random() - 0.5) * 50));
+            const grid = Math.max(-2000, Math.min(2000, parseInt(document.getElementById('grid-slider').value) + (Math.random() - 0.5) * 100));
+
+            // Update sliders
+            document.getElementById('solar-slider').value = solar;
+            document.getElementById('battery-slider').value = batteryLevel;
+            document.getElementById('battery-power-slider').value = batteryPower;
+            document.getElementById('house-slider').value = house;
+            document.getElementById('grid-slider').value = grid;
+
+            // Update display
+            updateDemoData();
+        }
+
+        // Initialize demo
+        updateDemoData();
+        
+        // Auto-update every 5 seconds
+        setInterval(autoUpdateDemo, 5000);
+        
+        // Add some demo-specific styling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add pulse effect to components
+            const components = document.querySelectorAll('.component');
+            components.forEach(component => {
+                component.style.animation = 'pulse 2s infinite';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inverter Dashboard - Local Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ Inverter Dashboard</h1>
+            <div class="status-panel">
+                <div id="timestamp">--:--:--</div>
+                <div id="system-status">Test Mode</div>
+            </div>
+        </header>
+
+        <div class="energy-flow">
+            <!-- Solar Panel -->
+            <div class="component solar" id="solar">
+                <div class="component-label">Solar</div>
+                <div class="component-value" id="solar-production">2500 W</div>
+            </div>
+
+            <!-- Battery -->
+            <div class="component battery" id="battery">
+                <div class="component-label">Battery</div>
+                <div class="component-value" id="battery-power">800 W</div>
+                <div class="battery-level">
+                    <div class="battery-bar">
+                        <div class="battery-fill" id="battery-fill" style="width: 75%"></div>
+                    </div>
+                    <div class="battery-percentage" id="battery-level">75%</div>
+                </div>
+            </div>
+
+            <!-- House -->
+            <div class="component house" id="house">
+                <div class="component-label">House</div>
+                <div class="component-value" id="house-consumption">1200 W</div>
+            </div>
+
+            <!-- Grid -->
+            <div class="component grid" id="grid">
+                <div class="component-label">Grid</div>
+                <div class="component-value" id="grid-power">-300 W</div>
+            </div>
+
+            <!-- SVG for curved connections -->
+            <svg id="flow-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"></svg>
+        </div>
+
+        <div class="controls">
+            <h3>🧪 Test Controls</h3>
+            <div class="control-group">
+                <label>Solar Production (W):</label>
+                <input type="range" id="solar-slider" min="0" max="5000" value="2500" oninput="updateTestData()">
+                <span id="solar-value">2500</span>
+            </div>
+            <div class="control-group">
+                <label>Battery Level (%):</label>
+                <input type="range" id="battery-slider" min="0" max="100" value="75" oninput="updateTestData()">
+                <span id="battery-value">75</span>
+            </div>
+            <div class="control-group">
+                <label>Battery Power (W):</label>
+                <input type="range" id="battery-power-slider" min="-2000" max="2000" value="800" oninput="updateTestData()">
+                <span id="battery-power-value">800</span>
+            </div>
+            <div class="control-group">
+                <label>House Consumption (W):</label>
+                <input type="range" id="house-slider" min="0" max="3000" value="1200" oninput="updateTestData()">
+                <span id="house-value">1200</span>
+            </div>
+            <div class="control-group">
+                <label>Grid Power (W):</label>
+                <input type="range" id="grid-slider" min="-2000" max="2000" value="-300" oninput="updateTestData()">
+                <span id="grid-value">-300</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Override the data update function for local testing
+        function updateTestData() {
+            const solar = parseInt(document.getElementById('solar-slider').value);
+            const batteryLevel = parseInt(document.getElementById('battery-slider').value);
+            const batteryPower = parseInt(document.getElementById('battery-power-slider').value);
+            const house = parseInt(document.getElementById('house-slider').value);
+            const grid = parseInt(document.getElementById('grid-slider').value);
+
+            // Update display values
+            document.getElementById('solar-value').textContent = solar;
+            document.getElementById('battery-value').textContent = batteryLevel;
+            document.getElementById('battery-power-value').textContent = batteryPower;
+            document.getElementById('house-value').textContent = house;
+            document.getElementById('grid-value').textContent = grid;
+
+            // Create test data object
+            const testData = {
+                solar_production: solar,
+                battery_level: batteryLevel,
+                battery_power: batteryPower,
+                house_consumption: house,
+                grid_power: grid,
+                timestamp: new Date().toISOString()
+            };
+
+            // Update dashboard
+            updateDashboard(testData);
+        }
+
+        function updateDashboard(data) {
+            // Update component values
+            document.getElementById("solar-production").textContent = data.solar_production + " W";
+            document.getElementById("battery-level").textContent = data.battery_level + "%";
+            document.getElementById("battery-power").textContent = formatBatteryPower(data.battery_power) + " W";
+            document.getElementById("house-consumption").textContent = data.house_consumption + " W";
+            document.getElementById("grid-power").textContent = formatGridPower(data.grid_power) + " W";
+            
+            // Update battery bar
+            const batteryFill = document.getElementById("battery-fill");
+            batteryFill.style.width = data.battery_level + "%";
+            
+            // Update timestamp
+            const timestamp = new Date(data.timestamp).toLocaleTimeString();
+            document.getElementById("timestamp").textContent = timestamp;
+            
+            // Control energy flow visualization
+            controlarFluxoEnergia(data);
+        }
+
+        // Initialize with default values
+        updateTestData();
+    </script>
+
+    <style>
+        .controls {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-group label {
+            min-width: 150px;
+            font-weight: bold;
+        }
+
+        .control-group input[type="range"] {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .control-group span {
+            min-width: 60px;
+            text-align: right;
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Inverter Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ Solar Inverter Dashboard</h1>
+            <div class="status-panel">
+                <div class="timestamp" id="timestamp">--:--:--</div>
+                <div class="system-status" id="system-status">Connecting...</div>
+            </div>
+        </header>
+
+        <div class="energy-flow">
+            <!-- Energy components -->
+            <div class="component solar-panels">
+                <div class="icon">☀️</div>
+                <div class="label">Solar</div>
+                <div class="value" id="solar-production">0 W</div>
+            </div>
+
+            <div class="component grid">
+                <div class="icon">⚡</div>
+                <div class="label">Grid</div>
+                <div class="value" id="grid-power">0 W</div>
+            </div>
+
+            <div class="component house">
+                <div class="icon">🏠</div>
+                <div class="label">House</div>
+                <div class="value" id="house-consumption">0 W</div>
+            </div>
+
+            <div class="component battery">
+                <div class="icon">🔋</div>
+                <div class="label">Battery</div>
+                <div class="value" id="battery-power">0 W</div>
+                <div class="battery-level">
+                    <div class="battery-bar">
+                        <div class="battery-fill" id="battery-fill"></div>
+                    </div>
+                    <div class="battery-percentage" id="battery-level">0%</div>
+                </div>
+            </div>
+
+            <!-- SVG for curved connections -->
+            <svg id="flow-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"></svg>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
