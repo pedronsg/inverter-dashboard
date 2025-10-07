@@ -3,7 +3,7 @@ async function atualizarDados() {
   // Simulated data to work without a server
     const data = {
       solar_production: 2500,
-      battery_level: 75,
+      battery_level: 20,
       battery_power: -500, // Negative = discharging
       house_consumption: 1200, // Lower consumption
       grid_power: -300, // Negative = exporting to grid
@@ -20,6 +20,7 @@ async function atualizarDados() {
   
   // Update component values
     document.getElementById("solar-production").textContent = data.solar_production + " W";
+    document.getElementById("battery-level").textContent = data.battery_level + "%";
     document.getElementById("battery-power").textContent = formatBatteryPower(data.battery_power) + " W";
     document.getElementById("house-consumption").textContent = data.house_consumption + " W";
     document.getElementById("grid-power").textContent = formatGridPower(data.grid_power) + " W";
@@ -28,17 +29,17 @@ async function atualizarDados() {
     const batteryIcon = document.getElementById("battery-icon");
     const level = data.battery_level;
     if (level >= 90) {
-      batteryIcon.textContent = "🔋"; // Full battery
+      batteryIcon.textContent = "🔋"; // Full battery (90-100%)
     } else if (level >= 70) {
-      batteryIcon.textContent = "🔋"; // High battery
+      batteryIcon.textContent = "🔋"; // High battery (70-89%)
     } else if (level >= 50) {
-      batteryIcon.textContent = "🔋"; // Medium battery
+      batteryIcon.textContent = "🔋"; // Medium battery (50-69%)
     } else if (level >= 30) {
-      batteryIcon.textContent = "🔋"; // Low battery
+      batteryIcon.textContent = "🪫"; // Low battery (30-49%)
     } else if (level >= 10) {
-      batteryIcon.textContent = "🔋"; // Very low battery
+      batteryIcon.textContent = "🪫"; // Very low battery (10-29%)
     } else {
-      batteryIcon.textContent = "🔋"; // Critical battery
+      batteryIcon.textContent = "🪫"; // Critical battery (0-9%)
     }
     
   // Update timestamp
@@ -73,7 +74,7 @@ function formatGridPower(power) {
   if (power > 0) {
     return `◀ ${power}`; // Importa da rede (seta grossa curta)
   } else if (power < 0) {
-    return `${Math.abs(power)} ▶`; // Exporta para a rede (seta grossa curta)
+    return `▶ ${Math.abs(power)}`; // Exporta para a rede (seta grossa curta)
   } else {
     return `0`; // Sem fluxo
   }
@@ -84,7 +85,7 @@ function formatBatteryPower(power) {
   if (power > 0) {
     return `▼ ${power}`; // Carrega a bateria (seta para baixo)
   } else if (power < 0) {
-    return `${Math.abs(power)} ▲`; // Descarrega a bateria (seta para cima)
+    return `▲ ${Math.abs(power)}`; // Descarrega a bateria (seta para cima)
   } else {
     return `0`; // Sem fluxo
   }
@@ -309,7 +310,7 @@ function calculateSpeed(power) {
 // Dados editáveis para teste
 let dadosTeste = {
   solar_production: 3500,
-  battery_level: 75,
+  battery_level: 20,
   battery_power: 2000,
   house_consumption: 1400,
   grid_power: -37,
