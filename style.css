@@ -224,26 +224,29 @@ h1 {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    padding: 10px;
+    padding: 5px;
+    box-sizing: border-box;
   }
   
   .energy-flow {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
     justify-items: center;
-    min-height: 350px;
-    width: 350px;
-    margin: 10px auto;
-    padding: 10px;
+    min-height: 320px;
+    width: 320px;
+    margin: 5px auto;
+    padding: 5px;
     flex-shrink: 0;
+    box-sizing: border-box;
   }
   
   .status-panel {
-    width: 350px;
-    margin-top: 20px;
+    width: 320px;
+    margin-top: 15px;
+    box-sizing: border-box;
   }
   
   .solar-panels {
@@ -288,6 +291,37 @@ h1 {
   
   h1 {
     font-size: 1.5rem;
+  }
+}
+
+/* Mobile muito pequeno */
+@media (max-width: 480px) {
+  .energy-flow {
+    width: 280px;
+    min-height: 280px;
+    gap: 10px;
+  }
+  
+  .status-panel {
+    width: 280px;
+  }
+  
+  .component {
+    width: 70px;
+    height: 70px;
+    padding: 0.6rem;
+  }
+  
+  .icon {
+    font-size: 1rem;
+  }
+  
+  .label {
+    font-size: 0.5rem;
+  }
+  
+  .value {
+    font-size: 0.6rem;
   }
 }
 
