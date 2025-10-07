@@ -223,12 +223,13 @@ h1 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 20px;
+    gap: 5px;
     align-items: center;
     justify-items: center;
-    min-height: 300px;
-    max-width: 300px;
+    min-height: 200px;
+    max-width: 200px;
     margin: 0 auto;
+    padding: 20px;
   }
   
   .solar-panels {
