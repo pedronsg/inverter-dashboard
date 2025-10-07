@@ -3,46 +3,36 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+      
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
       with:
-        node-version: '18'
-        
-    - name: Install dependencies
-      run: |
-        npm install -g serve
-        
-    - name: Build demo page
-      run: |
-        # Create a demo version with simulated data
-        cp index.html demo.html
-        cp style.css demo.css
-        cp script.js demo.js
-        
-        # Modify demo.html to use local files
-        sed -i 's/href="style.css"/href="demo.css"/g' demo.html
-        sed -i 's/src="script.js"/src="demo.js"/g' demo.html
-        
-        # Add demo banner to demo.html
-        sed -i 's/<title>.*<\/title>/<title>Inverter Dashboard - Demo<\/title>/g' demo.html
-        sed -i 's/<body>/<body><div style="background: #ff6b6b; color: white; padding: 10px; text-align: center; font-weight: bold;">🚀 DEMO MODE - Simulated Data<\/div>/g' demo.html
+        path: '.'
         
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./
-        publish_branch: gh-pages
-        keep_files: true
+      id: deployment
+      uses: actions/deploy-pages@v2
